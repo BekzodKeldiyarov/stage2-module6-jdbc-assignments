@@ -97,16 +97,16 @@ public class SimpleJDBCRepository {
 
     }
 
-    public User updateUser() {
+    public User updateUser(User user) {
         try {
             connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(updateUserSQL);
-            ps.setString(1, "bek updated");
-            ps.setString(2, "keldi updated");
-            ps.setInt(3, 99);
-            ps.setLong(4, 1);
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getLastName());
+            ps.setInt(3, user.getAge());
+            ps.setLong(4, user.getId());
             ps.executeQuery();
-            return findUserById(1L);
+            return findUserById(user.getId());
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
