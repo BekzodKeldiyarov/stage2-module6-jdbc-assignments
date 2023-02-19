@@ -27,16 +27,16 @@ public class SimpleJDBCRepository {
     private static final String findUserByNameSQL = "select * from myusers where firstname=(?)";
     private static final String findAllUserSQL = "SELECT * from myusers";
 
-    public Long createUser() {
+    public Long createUser(User user) {
         try {
             connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(createUserSQL);
-            ps.setLong(1, 1);
-            ps.setString(2, "Bekzod");
-            ps.setString(3, "Keldiyarov");
-            ps.setInt(4, 22);
+            ps.setLong(1, user.getId());
+            ps.setString(2, user.getFirstName());
+            ps.setString(3, user.getLastName());
+            ps.setInt(4, user.getAge());
             ps.execute();
-            return 1L;
+            return ps.execute() ? user.getId() : 0L;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
